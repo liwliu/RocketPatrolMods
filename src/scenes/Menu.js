@@ -8,6 +8,11 @@ class Menu extends Phaser.Scene{
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.audio('Explosion', './assets/Explosion.wav');
+        this.load.audio('Explosion2', './assets/Explosion2.wav');
+        this.load.audio('Explosion3', './assets/Explosion3.wav');
+        this.load.audio('Explosion4', './assets/Explosion4.wav');
+
       }
 
     create() {
@@ -29,13 +34,16 @@ class Menu extends Phaser.Scene{
         // show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Use <--> arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
+
+        this.add.text(95, 35, 'HI-SCORE:'+ highScore, menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press <- for Novice or -> for Expret', menuConfig).setOrigin(0.5);
-
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 50, 'Press DOWN for 2-player mode', menuConfig).setOrigin(0.5);
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         
     }
 
@@ -44,7 +52,8 @@ class Menu extends Phaser.Scene{
           // easy mode
           game.settings = {
             spaceshipSpeed: 3,
-            gameTimer: 60000    
+            gameTimer: 60000,
+            twoPlayer: false
           }
           this.sound.play('sfx_select');
           this.scene.start('playScene');    
@@ -53,10 +62,21 @@ class Menu extends Phaser.Scene{
           // hard mode
           game.settings = {
             spaceshipSpeed: 4,
-            gameTimer: 45000    
+            gameTimer: 45000,
+            twoPlayer: false    
           }
           this.sound.play('sfx_select');
           this.scene.start('playScene');    
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keyDOWN)) {
+          game.settings = {
+            spaceshipSpeed: 3,
+            gameTimer: 60000,
+            twoPlayer: true
+          }
+          this.sound.play('sfx_select');
+          this.scene.start('playScene'); 
         }
       }
 

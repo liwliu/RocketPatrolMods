@@ -8,16 +8,29 @@ class Ship extends Phaser.GameObjects.Sprite {
 
     update() {
         this.x -= this.moveSpeed;
-        
-
-        if(this.x <= 0 - this.width) {
-            this.reset();
-        }
+       // console.log(this.x);
+        if (this.moveSpeed > 0) {
+            if(this.x <= 0 - this.width) {
+                this.reset();
+            }
+        } else if (this.moveSpeed < 0) {
+            if(this.x >= game.config.width + this.width) {
+                this.reset();
+            }
+        }  
         
     }
 
     reset() {
-        this.x = game.config.width;
+        if (this.moveSpeed > 0) {
+            this.x = game.config.width - 20;
+        } else if (this.moveSpeed < 0){
+            this.x = 20;
+        }
 
+    }
+
+    changeDirection() {
+        this.moveSpeed = -this.moveSpeed;
     }
 }
